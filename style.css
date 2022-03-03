@@ -35,6 +35,7 @@ main {
     text-align: center;
     position: relative;
     margin-top: 1rem;
+    color: rgb(255, 136, 0);
 }
 
 label{
@@ -43,7 +44,7 @@ label{
 
 
 tbody#tbody tr {
-    background-color: coral;
+    background-color: rgb(255, 136, 0);
 }
 tbody#tbody tr:hover {
     background-color: rgb(0, 0, 0);
@@ -53,7 +54,7 @@ tbody#tbody tr:hover {
     content: '';
     width: 200px;
     height: 2px;
-    background:  orange;
+    background-color: rgb(255, 136, 0);
     position: absolute;
     bottom: -5px;
     left: 50%;
@@ -93,8 +94,15 @@ tbody#tbody tr:hover {
 #form label{
            
     font-size: 22px;
-    color:#d4d4d4;
+    color:#ffffff;
     font-weight: 400;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.tools label{
+    text-transform: capitalize;
+    font-weight: bold;
 }
 
 
@@ -219,4 +227,13 @@ tr {
 
 #tbody button i{
     pointer-events: none;
+}
+
+
+
+
+tbody#tbody tr td {
+    padding: 3px 0;
+    font-weight: bold;
+    text-transform: capitalize;
 }
