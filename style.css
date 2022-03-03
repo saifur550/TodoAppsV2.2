@@ -20,6 +20,7 @@ body{
     background-image: url(./bg5.png);
     background-position: center;
     background-size: cover;
+    
 }
 
 main {
@@ -41,6 +42,7 @@ main {
     position: relative;
     margin-top: 1rem;
     color: rgb(255, 136, 0);
+  
 }
 
 label{
@@ -70,10 +72,12 @@ tbody#tbody tr:hover {
 
 .sub_title{
     font-size: 27px;
-    color: #000000;
+    color: #ffffff;
     margin-top: 20px;
-    letter-spacing: 2px;
-    font-weight: 600;
+    letter-spacing: 1px;
+    font-weight: 800;
+    margin-bottom: 1rem;
+   
     
 }
 
