@@ -1,14 +1,14 @@
 
-// get all item by this function 
+// get all data by this function 
 
-function getItem (id){
+function getdata (id){
     return document.getElementById(id)
 }
 
 // call the function
-const form = getItem('form');
-const date = getItem('date');
-const tbody = getItem('tbody')
+const form = getdata('form');
+const date = getdata('date');
+const tbody = getdata('tbody')
 
 
 
@@ -24,22 +24,44 @@ date.value = today
 form.addEventListener('submit' , function(e){
     e.preventDefault()
     const inputs = ([...this.elements]);
-    const fromData = {}
+    const fromData = {};
+    let isValid = true;
     console.log(inputs);
     inputs.forEach( input =>{
 
         if(input.type !== 'submit'){
+            if(input.value == ''){
+                alert('please fill up the filed with valid value');
+                isValid = false;
+                return;
+            }
             fromData[input.name] = input.value;
         }
       
     })
-    fromData.status ='incomplete'
-    displayItem(fromData);
+    
+    if(isValid){
+        fromData.status ='incomplete';
+        fromData.id = uuidv4();
+        displaydata(fromData);
+        const tasks = getDataFromLocalStorage();
+        console.log(tasks);
+        tasks.push(fromData)
+        setDataFromLocalStorage(tasks)
+    }
+    this.reset()
   
 })
 
 
-function displayItem ({name, priority, status, date}){
+function displaydata ({
+     id,
+      name,
+      priority,
+      status,
+      date
+    })
+    {
 
     const createTr = document.createElement('tr');
     createTr.innerHTML =    `
@@ -57,5 +79,27 @@ function displayItem ({name, priority, status, date}){
                     </td>
     
     `
+    createTr.dataset.id = id;
      tbody.appendChild(createTr)
 }
+
+
+function getDataFromLocalStorage(){
+    let tasks =[];
+    const data =localStorage.getItem('tasks');
+
+    if(data){
+        tasks = JSON.parse(data)
+    }
+    return tasks
+
+
+}
+
+
+function setDataFromLocalStorage(tasks){
+    localStorage.setItem('tasks' , JSON.stringify(tasks))
+}
+
+
+
