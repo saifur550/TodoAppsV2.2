@@ -1,14 +1,16 @@
 
+
+
 // get all data by this function 
 
-function getdata (id){
+function getData (id){
     return document.getElementById(id)
 }
 
 // call the function
-const form = getdata('form');
-const date = getdata('date');
-const tbody = getdata('tbody')
+const form = getData('form');
+const date = getData('date');
+const tbody = getData('tbody')
 
 
 
@@ -43,9 +45,8 @@ form.addEventListener('submit' , function(e){
     if(isValid){
         fromData.status ='incomplete';
         fromData.id = uuidv4();
-        displaydata(fromData);
-        const tasks = getDataFromLocalStorage();
-        console.log(tasks);
+        let tasks = getDataFromLocalStorage();
+        displayData(fromData,tasks.length +1);
         tasks.push(fromData)
         setDataFromLocalStorage(tasks)
     }
@@ -54,20 +55,30 @@ form.addEventListener('submit' , function(e){
 })
 
 
-function displaydata ({
+
+window.onload = function (){
+    const tasks = getDataFromLocalStorage();
+    tasks.forEach((task, index)=>{
+        displayData(task,index +1)
+    })
+}
+
+
+function displayData ({
      id,
       name,
       priority,
       status,
-      date
-    })
+      date,
+      
+    },index)
     {
 
     const createTr = document.createElement('tr');
     createTr.innerHTML =    `
 
 
-                    <td>0</td>
+                    <td>${index}</td>
                     <td>${name}</td>
                     <td>${priority}</td>
                     <td>${status}</td>
