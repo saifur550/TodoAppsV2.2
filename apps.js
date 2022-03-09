@@ -28,7 +28,6 @@ form.addEventListener('submit' , function(e){
     const inputs = ([...this.elements]);
     const fromData = {};
     let isValid = true;
-    console.log(inputs);
     inputs.forEach( input =>{
 
         if(input.type !== 'submit'){
@@ -48,7 +47,7 @@ form.addEventListener('submit' , function(e){
         let tasks = getDataFromLocalStorage();
         displayData(fromData,tasks.length +1);
         tasks.push(fromData)
-        setDataFromLocalStorage(tasks)
+        setDataToLocalStorage(tasks)
     }
     this.reset()
   
@@ -56,7 +55,11 @@ form.addEventListener('submit' , function(e){
 
 
 
-window.onload = function (){
+window.onload = load;
+
+
+function load (){
+    tbody.innerHTML ='';
     const tasks = getDataFromLocalStorage();
     tasks.forEach((task, index)=>{
         displayData(task,index +1)
@@ -70,7 +73,6 @@ function displayData ({
       priority,
       status,
       date,
-      
     },index)
     {
 
@@ -78,12 +80,12 @@ function displayData ({
     createTr.innerHTML =    `
 
 
-                    <td>${index}</td>
-                    <td>${name}</td>
-                    <td>${priority}</td>
-                    <td>${status}</td>
-                    <td>${date}</td>
-                    <td>
+                    <td id= "no" >${index}</td>
+                    <td id= "number" >${name}</td>
+                    <td id= "priority" >${priority}</td>
+                    <td id= "status" >${status}</td>
+                    <td id= "data" >${date}</td>
+                    <td id= "action">
                         <button id="delete"> <i class="fas fa-trash-can"></i></button>
                         <button id="check"> <i class="fas fa-check"></i></button>
                         <button id="edit"> <i class="fas fa-pen"></i></button>
@@ -102,15 +104,66 @@ function getDataFromLocalStorage(){
     if(data){
         tasks = JSON.parse(data)
     }
-    return tasks
-
-
+    return tasks;
 }
 
 
-function setDataFromLocalStorage(tasks){
+function setDataToLocalStorage(tasks){
     localStorage.setItem('tasks' , JSON.stringify(tasks))
+    
 }
 
 
 
+
+// ===========Action ===============
+
+tbody.addEventListener('click' , function(e){
+    
+    if(e.target.id == 'delete'){
+        let tr = e.target.parentElement.parentElement;
+        const id = tr.dataset.id
+        console.log(id);
+        tr.remove();
+        let tasks = getDataFromLocalStorage();
+        tasks = tasks.filter( (task) => {
+            if(task.id !== id){
+                return task;
+            }
+        })
+        setDataToLocalStorage(tasks);
+        load()
+    }
+    
+    else if(e.target.id =='check'){
+        const tr = e.target.parentElement.parentElement;
+        const id = tr.dataset.id ;
+        const tds = tr.children;
+        [...tds].forEach(td=>{
+            if(td.id =='status'){
+                let tasks = getDataFromLocalStorage();
+               tasks = tasks.filter(task=>{
+                   if(task.id == id){
+                    if(task.status =='incomplete'){
+                        task.status ='complete';
+                        td.innerText = 'complete';
+                    }else{
+                       task.status ='incomplete';
+                       td.innerText = 'incomplete';
+                    }
+                    return task;
+
+                   }else{
+                       return task;
+                   }
+                    
+                })
+                setDataToLocalStorage(tasks)
+            }
+           
+        }) 
+    }
+    else if(e.target.id == 'edit'){
+     
+    }
+})
