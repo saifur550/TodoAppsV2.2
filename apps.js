@@ -168,24 +168,48 @@ tbody.addEventListener('click' , function(e){
       const id = tr.dataset.id;
       const tds = tr.children;
 
+      //name
+      let nameId;
+      let newNameField;
+
+      //priority
+      let newPriorityTd;
+      let newPrioritySelect;
+
+
+      //date
+      let dateTd;
+      let dateInputField
+
+
+      //action 
+
+      let buttonTd
+      let preButton
+
+
+
   
     //   console.log(td,id, tds);
     [...tds].forEach(td =>{
+
+
         if(td.id === 'name'){
-            const input = document.createElement('input');
-            input.type = 'text';
-            
+            nameId =td;
             const preName = td.textContent ;
+            newNameField = document.createElement('input');
             td.innerText = '';
-            input.value = preName;
-            td.appendChild(input)
+            newNameField.type = 'text';
+            newNameField.value = preName;
+            td.appendChild(newNameField)
         }
 
         else if(td.id ==='priority'){
+            newPriorityTd =td;
             const prePriority = td.textContent ;
             td.innerText = '';
-            const select = document.createElement('select');
-            select.innerHTML = `
+            newPrioritySelect = document.createElement('select');
+            newPrioritySelect.innerHTML = `
             <option disabled> select one </option>
             <option value="high">High</option>
             <option value="medium">Medium</option>
@@ -193,32 +217,79 @@ tbody.addEventListener('click' , function(e){
             
             `
             if(prePriority =='high'){
-                select.selectedIndex = 1;
+                newPrioritySelect.selectedIndex = 1;
             }
 
             else if(prePriority =='medium'){
-                select.selectedIndex = 2;
+                newPrioritySelect.selectedIndex = 2;
             }
             else if(prePriority =='low'){
-                select.selectedIndex = 3;
+                newPrioritySelect.selectedIndex = 3;
             }
                
-            td.appendChild(select)
+            td.appendChild(newPrioritySelect)
             
         }
 
         else if(td.id ==='data'){
+            dateTd =td;
 
-               
-            const preName = td.textContent ;
-            td.innerText = '';
-            input.value = preName;
-            td.appendChild(input)
+
+            const preDate = td.textContent ;
+            td.innerHTML = '';
+            dateInputField = document.createElement('input');
+            dateInputField.type = 'date';
+            dateInputField.value = preDate;
+            td.appendChild(dateInputField)    
             
         }
 
         else if(td.id =='action'){
-            
+
+            buttonTd =td
+            preButton = td.innerHTML ;
+            td.innerHTML = '';
+            const saveBtn = document.createElement('button');
+            saveBtn.style.width ='50%' 
+            saveBtn.innerHTML ='<button>Save</button>';
+            saveBtn.addEventListener('click', function(){
+                //name 
+              const newName = newNameField.value;
+              nameId.innerHTML = newName;
+
+              //Priority
+
+              const newPriority =  newPrioritySelect.value;
+              newPriorityTd.innerHTML = newPriority;
+
+
+              //date
+              const newDate = dateInputField.value;
+              dateTd.innerHTML = newDate;
+
+              //action button 
+              buttonTd.innerHTML = preButton
+
+
+              //modified data save to local storage
+
+              let tasks = getDataFromLocalStorage()
+              tasks =tasks.filter(task=>{
+
+                if(task.id == id){
+                    task.name = newName;
+                    task.priority = newPriority;
+                    task.date = newDate
+                    return task;
+                }else{
+                    return task
+                }
+              })
+              setDataToLocalStorage(tasks)
+
+            });
+
+            td.appendChild(saveBtn)
         }
     })
     }
