@@ -81,7 +81,7 @@ function displayData ({
 
 
                     <td id= "no" >${index}</td>
-                    <td id= "number" >${name}</td>
+                    <td id= "name" >${name}</td>
                     <td id= "priority" >${priority}</td>
                     <td id= "status" >${status}</td>
                     <td id= "data" >${date}</td>
@@ -167,9 +167,59 @@ tbody.addEventListener('click' , function(e){
       const tr = e.target.parentElement.parentElement;
       const id = tr.dataset.id;
       const tds = tr.children;
+
+  
     //   console.log(td,id, tds);
     [...tds].forEach(td =>{
-        console.log(td);
+        if(td.id === 'name'){
+            const input = document.createElement('input');
+            input.type = 'text';
+            
+            const preName = td.textContent ;
+            td.innerText = '';
+            input.value = preName;
+            td.appendChild(input)
+        }
+
+        else if(td.id ==='priority'){
+            const prePriority = td.textContent ;
+            td.innerText = '';
+            const select = document.createElement('select');
+            select.innerHTML = `
+            <option disabled> select one </option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+            
+            `
+            if(prePriority =='high'){
+                select.selectedIndex = 1;
+            }
+
+            else if(prePriority =='medium'){
+                select.selectedIndex = 2;
+            }
+            else if(prePriority =='low'){
+                select.selectedIndex = 3;
+            }
+               
+            td.appendChild(select)
+            
+        }
+
+        else if(td.id ==='data'){
+
+               
+            const preName = td.textContent ;
+            td.innerText = '';
+            input.value = preName;
+            td.appendChild(input)
+            
+        }
+
+        else if(td.id =='action'){
+            
+        }
     })
     }
 })

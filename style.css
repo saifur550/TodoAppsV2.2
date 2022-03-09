@@ -17,6 +17,12 @@
     src: url("./blue_yellow/Blue Yellow.ttf")
   }
 
+
+@font-face {
+    font-family: "social_shapes";
+    src: url("./social_shapes/Social_Shapes.ttf")
+  }
+
 body{
 
     display: flex;
@@ -49,6 +55,7 @@ main {
     margin-top: 1rem;
     color: rgb(255, 136, 0);
     font-size: 2rem;
+   
   
 }
 
