@@ -164,6 +164,12 @@ tbody.addEventListener('click' , function(e){
         }) 
     }
     else if(e.target.id == 'edit'){
-     
+      const tr = e.target.parentElement.parentElement;
+      const id = tr.dataset.id;
+      const tds = tr.children;
+    //   console.log(td,id, tds);
+    [...tds].forEach(td =>{
+        console.log(td);
+    })
     }
 })
