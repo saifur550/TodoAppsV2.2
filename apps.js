@@ -11,6 +11,10 @@ function getData (id){
 const form = getData('form');
 const date = getData('date');
 const tbody = getData('tbody')
+const searchField = getData('search_name');
+const filterField = getData('filter');
+const sort = getData('sort')
+const byDate = getData('by_date')
 
 
 
@@ -19,6 +23,139 @@ const today = new Date().toISOString().slice(0,10);
 date.value = today
 
 
+
+// search functionality 
+searchField.addEventListener('input', function (e) {
+    filterField.selectedIndex = 0;
+    tbody.innerHTML =''
+    const searchTerm = this.value;
+    const tasks = getDataFromLocalStorage();
+
+    let count = 0
+    tasks.forEach((task=>{
+        if(task.name.toLowerCase().includes(searchTerm.toLowerCase())){
+            ++count;
+            displayData(task,count);
+        }
+    }))
+})
+
+
+//filtering functionality============
+filterField.addEventListener('change', function (e){
+    searchField.value =''
+    tbody.innerHTML = '';
+    const filterTeam = this.value;
+    const tasks = getDataFromLocalStorage();
+    console.log(tasks);
+    switch(filterTeam){
+        case 'all':
+
+       tasks.forEach((task , count)=>{
+           displayData(task,count+1)
+       })
+            break;
+
+        case 'complete':
+
+        let count1=0;;
+        tasks.forEach((task )=>{
+          if(task.status == 'complete'){
+            ++count1
+            displayData(task,count1)
+          }
+       })
+            break;
+
+        case 'incomplete':
+        let count2=0;;
+        tasks.forEach((task )=>{
+          if(task.status == 'incomplete'){
+            ++count2
+            displayData(task,count2)
+          }
+       })
+            break;
+
+        case 'today':
+            let count3=0;;
+            tasks.forEach((task )=>{
+              if(task.date == today){
+                ++count3
+                displayData(task,count3)
+              }
+           })
+           console.log('today');
+            break;
+
+        case 'high':
+            let count4=0;;
+            tasks.forEach((task )=>{
+              if(task.priority == 'high'){
+                ++count4
+                displayData(task,count4)
+              }
+           })
+            break;
+
+        case 'medium':
+            let count5=0;;
+            tasks.forEach((task )=>{
+              if(task.priority == 'medium'){
+                ++count5
+                displayData(task,count5)
+              }
+           })
+            break;
+
+        case 'low':
+            let count6=0;;
+            tasks.forEach((task )=>{
+              if(task.priority == 'low'){
+                ++count6
+                displayData(task,count6)
+              }
+           })
+            break;
+    }
+
+})
+
+
+// sort functionality
+sort.addEventListener('change', function (e){
+    tbody.innerHTML= '';
+    filterField.selectedIndex = 0
+    const sortTerm = this.value;
+    searchField.value =''
+    const tasks = getDataFromLocalStorage()
+    if(sortTerm ==='newest'){
+       tasks.sort((a, b)=>{
+           if(new Date(a.date)  > new Date(b.date)){
+               return -1;
+           }else if(new Date(a.date) < new Date(b.date) ){
+               return 1;
+           }else{
+               return 0
+           }
+       })
+    }else{
+
+        tasks.sort((a, b)=>{
+            if(new Date(a.date)  > new Date(b.date)){
+                return 1;
+            }else if(new Date(a.date) < new Date(b.date) ){
+                return -1;
+            }else{
+                return 0
+            }
+        })
+       
+    }
+    tasks.forEach((task,i)=>{
+        displayData(task, i +1)
+    })
+});
 
 
 
