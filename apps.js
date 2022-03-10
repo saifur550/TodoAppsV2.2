@@ -14,7 +14,8 @@ const tbody = getData('tbody')
 const searchField = getData('search_name');
 const filterField = getData('filter');
 const sort = getData('sort')
-const byDate = getData('by_date')
+const byDate = getData('bydate')
+console.log(byDate);
 
 
 
@@ -28,6 +29,7 @@ date.value = today
 searchField.addEventListener('input', function (e) {
     filterField.selectedIndex = 0;
     tbody.innerHTML =''
+    byDate.value= '';
     const searchTerm = this.value;
     const tasks = getDataFromLocalStorage();
 
@@ -45,6 +47,7 @@ searchField.addEventListener('input', function (e) {
 filterField.addEventListener('change', function (e){
     searchField.value =''
     tbody.innerHTML = '';
+    byDate.value= '';
     const filterTeam = this.value;
     const tasks = getDataFromLocalStorage();
     console.log(tasks);
@@ -122,7 +125,7 @@ filterField.addEventListener('change', function (e){
 })
 
 
-// sort functionality
+// sort functionality 
 sort.addEventListener('change', function (e){
     tbody.innerHTML= '';
     filterField.selectedIndex = 0
@@ -157,6 +160,35 @@ sort.addEventListener('change', function (e){
     })
 });
 
+
+// sort with date
+
+
+byDate.addEventListener('change' , function (e){
+
+    const selectedDate = this.value;
+    searchField.value = '';
+    tbody.innerHTML = '';
+    filterField.selectedIndex =0;
+    const tasks = getDataFromLocalStorage();
+    let count = 0;
+
+    if(selectedDate){
+
+        tasks.forEach(task=>{
+            if(task.date == selectedDate){
+                ++ count ;
+                displayData(task , count)
+            }
+        })
+    }
+
+    else{
+        tasks.forEach((task,i )=>{
+            displayData(task, i+=1)
+        })
+    }
+})
 
 
 // add event handel
